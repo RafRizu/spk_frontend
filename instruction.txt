@@ -1,0 +1,61 @@
+========================================================================
+OUTLINE ARSITEKTUR FRONTEND - SPK MABAC CATALOG APP (FLUTTER + PROVIDER)
+========================================================================
+
+1. ARSITEKTUR & STATE MANAGEMENT
+   - State Management: Menggunakan 'Provider' untuk memisahkan UI logic dengan Business Logic (API calls & MABAC state).
+   - Base URL Configuration: Menyediakan konfigurasi central untuk API URL (menggunakan Class khusus/Environment variable) agar mudah diubah dari Localhost, Port Forwarding (VS Code/Ngrok), hingga Production Server.
+   - Tanpa Autentikasi: Aplikasi bertindak sebagai katalog publik bebas login.
+
+2. STRUKTUR DIREKTORI (CLEAN ARCHITECTURE SIMPLIFIED)
+   - lib/
+     ├── config/
+     │   └── api_config.dart (Tempat setup Base URL & Endpoints)
+     ├── models/
+     │   └── smartphone_model.dart (Data model parsing dari JSON Laravel)
+     ├── providers/
+     │   ├── smartphone_provider.dart (State untuk list semua smartphone / katalog)
+     │   └── recommendation_provider.dart (State untuk request & hasil SPK MABAC)
+     ├── services/
+     │   └── api_service.dart (Menggunakan 'http' atau 'dio' untuk HTTP request)
+     ├── views/
+     │   ├── catalog_screen.dart (Halaman utama list smartphone dengan filter range harga)
+     │   ├── recommendation_screen.dart (Halaman input kriteria tambahan & hasil rekomendasi MABAC)
+     │   └── detail_smartphone_screen.dart (Detail spesifikasi smartphone)
+     └── main.dart
+
+3. FITUR UTAMA FLUTTER FRONTEND
+   - Katalog Dinamis: Menampilkan semua smartphone yang tersedia, dilengkapi filter visual berdasarkan rentang harga.
+   - Form Rekomendasi MABAC: Input range harga (Min - Max) yang akan dikirim ke Backend API `/api/public/recommend`.
+   - Urutan Rekomendasi: Menampilkan hasil dari endpoint rekomendasi, diurutkan berdasarkan skor tertinggi MABAC dengan lencana (badge) ranking yang menarik.
+
+========================================================================
+PROMPT UNTUK AI ASSISTANT (GENERASI KODE FLUTTER FRONTEND)
+========================================================================
+
+Bertindaklah sebagai Senior Flutter Developer dan UI/UX Expert. Saya sedang membangun frontend aplikasi katalog smartphone dan rekomendasi Sistem Pendukung Keputusan (SPK) menggunakan metode MABAC. Backend saya menggunakan Laravel 11 (Repository: https://github.com/RafRizu/SPK-Backend).
+
+Aplikasi Flutter ini bersifat publik (Tanpa Login / No Auth) karena tujuannya adalah sebagai katalog interaktif bagi pelanggan konter HP. State management yang harus digunakan adalah 'Provider'. Saat ini saya sedang dalam tahap development menggunakan fitur Port Forwarding (VS Code / Ngrok), sehingga konfigurasi API URL harus dibuat dinamis dan sangat mudah diubah di satu tempat.
+
+Data atribut smartphone yang didapatkan dari API meliputi:
+- nama_model, merk, harga, ram, rom, baterai, kamera, status_tersedia, gambar.
+
+TUGAS ANDA:
+Buatkan struktur kode Flutter yang bersih, modular, dan lengkap yang meliputi:
+
+1. API Configuration & Service (`lib/config/api_config.dart` & `lib/services/api_service.dart`):
+   - Buat sebuah class `ApiConfig` yang menampung variabel static `baseUrl`. Berikan komentar instruksi yang jelas bagaimana mengubahnya jika menggunakan Port Forwarding (misal: 'https://xxxx-forward.app.github.dev' atau 'http://10.0.2.2:8000' untuk emulator).
+   - Gunakan package `http` atau `dio` untuk membuat `ApiService` yang menangani:
+     * Fetch data katalog (`GET /api/public/smartphones`)
+     * Fetch data rekomendasi MABAC (`POST /api/public/recommend`) dengan mengirimkan body `min_harga` dan `max_harga`.
+
+2. Data Model & Providers:
+   - Buat `SmartphoneModel` untuk memetakan response JSON dari Laravel secara aman (termasuk handling tipe data int/double pada harga, RAM, ROM, baterai, kamera).
+   - Buat `SmartphoneProvider` untuk mengelola state katalog utama (loading, error, success, filter harga lokal).
+   - Buat `RecommendationProvider` untuk mengelola state hasil kalkulasi MABAC yang dikembalikan oleh backend, lengkap dengan fungsi `fetchRecommendation(int minHarga, int maxHarga)`.
+
+3. UI / Views Layer (Clean & Modern UI):
+   - `CatalogScreen`: Menampilkan list smartphone menggunakan GridView atau ListView card yang rapi. Memiliki komponen Filter Range Harga (bisa menggunakan RangeSlider atau TextField input). Ada tombol "Cari Rekomendasi Terbaik".
+   - `RecommendationScreen`: Menampilkan daftar smartphone hasil rekomendasi dari algoritma MABAC. Tampilkan indikator peringkat (Juara 1, 2, 3 atau Rank #1, #2, dst.) secara visual menonjol berdasarkan urutan data yang dikirim backend.
+
+Pastikan kode yang dihasilkan menggunakan null-safety, rapi, dan menerapkan best practice Provider (notifyListeners) untuk memicu perubahan UI secara reaktif.
