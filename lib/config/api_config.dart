@@ -17,7 +17,7 @@
 /// =========================================================
 class ApiConfig {
   // ✏️ GANTI URL INI sesuai environment yang digunakan
-  static const String baseUrl = 'http://10.16.147.51:8000';
+  static const String baseUrl = 'https://steep-vagueness-rudder.ngrok-free.dev/';
 
   // --- Endpoints ---
   static String get smartphones => '$baseUrl/api/public/smartphones';
