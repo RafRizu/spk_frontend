@@ -60,11 +60,11 @@ class DetailSmartphoneScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (phone.gambar != null && phone.gambar!.isNotEmpty)
+            if (phone.gambarUrl != null && phone.gambarUrl!.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.all(32),
                 child: Image.network(
-                  phone.gambar!,
+                  phone.gambarUrl!,
                   fit: BoxFit.contain,
                   errorBuilder: (_, __, ___) => const Icon(
                     Icons.phone_android,

@@ -511,9 +511,10 @@ class _SmartphoneCard extends StatelessWidget {
   }
 
   Widget _buildImage() {
-    if (phone.gambar != null && phone.gambar!.isNotEmpty) {
+    final url = phone.gambarUrl ?? '';
+    if (url.isNotEmpty) {
       return Image.network(
-        phone.gambar!,
+        url,
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,

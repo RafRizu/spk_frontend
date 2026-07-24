@@ -595,13 +595,14 @@ class _RecommendCard extends StatelessWidget {
   }
 
   Widget _buildImage() {
+    final url = phone.gambarUrl ?? '';
     return Container(
       width: 80,
       height: 100,
       color: const Color(0xFFF0F4FF),
-      child: phone.gambar != null && phone.gambar!.isNotEmpty
+      child: url.isNotEmpty
           ? Image.network(
-              phone.gambar!,
+              url,
               fit: BoxFit.contain,
               errorBuilder: (_, __, ___) => const Icon(
                 Icons.phone_android,

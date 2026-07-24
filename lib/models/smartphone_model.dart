@@ -10,6 +10,7 @@ class SmartphoneModel {
   final double kamera;
   final bool statusTersedia;
   final String? gambar;
+  final String? gambarUrl;
 
   // Field tambahan dari hasil rekomendasi MABAC
   final double? mabacScore;
@@ -26,6 +27,7 @@ class SmartphoneModel {
     required this.kamera,
     required this.statusTersedia,
     this.gambar,
+    this.gambarUrl,
     this.mabacScore,
     this.rank,
   });
@@ -46,6 +48,7 @@ class SmartphoneModel {
           json['status_tersedia'] == 1 ||
           json['status_tersedia'] == '1',
       gambar: json['gambar']?.toString(),
+      gambarUrl: json['gambar_url']?.toString(),
     );
   }
 
@@ -69,6 +72,7 @@ class SmartphoneModel {
           smartphone['status_tersedia'] == 1 ||
           smartphone['status_tersedia'] == '1',
       gambar: smartphone['gambar']?.toString(),
+      gambarUrl: smartphone['gambar_url']?.toString(),
       mabacScore: smartphone['mabac_score'] != null
           ? _parseDouble(smartphone['mabac_score'])
           : (json['mabac_score'] != null
