@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'providers/smartphone_provider.dart';
 import 'providers/recommendation_provider.dart';
 import 'views/catalog_screen.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +14,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersiveSticky,
+      overlays: [SystemUiOverlay.top],
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SmartphoneProvider()),
